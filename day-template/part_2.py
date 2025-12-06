@@ -1,4 +1,5 @@
 import time
+import functools
 with open("input.txt", "r") as f:
     aoc_input = f.read()
 result = 0
