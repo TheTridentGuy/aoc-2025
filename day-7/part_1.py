@@ -14,7 +14,6 @@ import math
 boxes = aoc_input.split()
 boxes = [[int(x) for x in box.split(",")] for box in boxes]
 
-@functools.lru_cache()
 def euclidean_distance(x1, y1, z1, x2, y2, z2):
     return math.sqrt((x1-x2)**2+(y1-y2)**2+(z1-z2)**2)
 

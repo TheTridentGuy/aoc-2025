@@ -14,7 +14,6 @@ import math
 boxes = aoc_input.split()
 boxes = [[int(x) for x in box.split(",")] for box in boxes]
 
-@functools.lru_cache()
 def euclidean_distance(x1, y1, z1, x2, y2, z2):
     return math.sqrt((x1-x2)**2+(y1-y2)**2+(z1-z2)**2)
 
@@ -26,7 +25,6 @@ while boxes:
         distances.append((box_a, box_b, euclidean_distance(*box_a, *box_b)))
 
 distances.sort(key=lambda x: x[-1])
-print(distances)
 circuits = [[box] for box in og_boxes]
 for distance in distances:
     box_a, box_b, _ = distance
@@ -42,8 +40,7 @@ for distance in distances:
         circuits = [circuits[i] for i in range(len(circuits)) if not i in (circuit_a, circuit_b)]
         circuits.append(new_circuit)
     if len(circuits) == 1:
-        print(distance)
-        print(distance[0][0]*distance[1][0])
+        result = distance[0][0]*distance[1][0]
         break
 
 
