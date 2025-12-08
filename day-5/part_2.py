@@ -6,7 +6,7 @@ aoc_time_start = time.perf_counter()
 ##############
 # CODE BELOW #
 ##############
-import sys
+
 rows = aoc_input.split("\n")
 rows = [list(row) for row in rows]
 rows[-1].extend([" ", " "]) # pov: your editor strips trailing spaces from your input file
@@ -28,7 +28,6 @@ for x in range(len(rows[0])-1, -1, -1):
         else:
             number.append(rows[y][x])
     numbers.append("".join(number))
-
 
 ##############
 # CODE ABOVE #

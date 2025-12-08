@@ -9,6 +9,24 @@ aoc_time_start = time.perf_counter()
 ##############
 
 
+rows = aoc_input.split()
+rows = [list(row) for row in rows]
+
+def recursive(x, y):
+    try:
+        while rows[y][x] == ".":
+            y+=1
+        assert rows[y][x] == "^"
+        return recursive(x-1, y+1)+recursive(x+1, y+1)
+    except IndexError:
+        return 1
+
+
+for x in range(len(rows[0])):
+    if rows[0][x] == "S":
+        result += recursive(x, 1)
+
+
 
 ##############
 # CODE ABOVE #
