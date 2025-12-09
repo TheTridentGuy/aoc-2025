@@ -1,7 +1,6 @@
 import time
 import functools
 
-from regex import split
 
 with open("input.txt", "r") as f:
     aoc_input = f.read()
