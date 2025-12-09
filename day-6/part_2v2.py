@@ -35,9 +35,6 @@ for y in range(1, len(rows)):
 
 result = sum([item for item in rows[-1] if isinstance(item, int)])
 
-for row in rows:
-    print([str(item) for item in row])
-
 ##############
 # CODE ABOVE #
 ##############

@@ -10,26 +10,34 @@ aoc_time_start = time.perf_counter()
 # CODE BELOW #
 ##############
 
-aoc_input = """7,1
-11,1
-11,7
-9,7
-9,5
-2,5
-2,3
-7,3"""
+
 
 positions = [[int(x) for x in position.split(",")] for position in aoc_input.split("\n")]
-og_positions = positions[:]
+lines = list(zip([*positions, positions[0]], [positions[-1], *positions]))
 largest_area = 0
 
 def check_collisions(position_a, position_b):
     x1, y1 = position_a
     x2, y2 = position_b
-    for pos_x, pos_y in og_positions:
-        if min(x1, x2) < pos_x < max(x1, x2) and min(y1, y2) < pos_y < max(y1, y2):
-            return False
+    for line in lines:
+        line_x1, line_y1 = line[0]
+        line_x2, line_y2 = line[1]
+        if line_y1 == line_y2:
+            if not min(y1, y2) < line_y1 < max(y1, y2):
+                continue
+            for x in range(min(line_x1, line_x2), max(line_x1, line_x2)+1):
+                if min(x1, x2) < x < max(x1, x2):
+                    return False
+        elif line_x1 == line_x2:
+            if not min(x1, x2) < line_x1 < max(x1, x2):
+                continue
+            for y in range(min(line_y1, line_y2), max(line_y1, line_y2)+1):
+                if min(y1, y2) < y < max(y1, y2):
+                    return False
     return True
+
+
+
 
 while positions:
     position_a = positions.pop()
