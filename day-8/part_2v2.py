@@ -37,7 +37,7 @@ def flooodfill(x, y):
         for x_off, y_off in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
             flooodfill(x+x_off, y+y_off)
 
-y = 69
+y = 4
 for x in range(carpet_size):
     if carpet[y][x]:
         flooodfill(x+1, y)
@@ -50,7 +50,6 @@ def perimeter_walk(position_a, position_b):
     corners = [(x1, y1), (x1, y2), (x2, y2), (x2, y1), (x1, y1)]
     last_x, last_y = None, None
     for x, y in corners:
-        if not carpet[y][x]: return False
         if last_x and last_y:
             if last_x < x:
                 for new_x in range(last_x+1, x):
