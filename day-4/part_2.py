@@ -3,50 +3,27 @@ with open("input.txt", "r") as f:
 
 
 result = 0
-with open("input.txt", "r") as f:
-    aoc = f.read()
+map_ = aoc.split()
+map_ = [list(row) for row in map_]
 
+def check_surroundings(x, y, map_):
+    res = 0
+    for yoff in [1, 0, -1]:
+        for xoff in [1, 0, -1]:
+            if x+xoff >= 0 and y+yoff >= 0 and x+xoff < len(map_[0]) and y+yoff < len(map_) and not (xoff == 0 and yoff == 0):
+                if map_[y+yoff][x+xoff] == "@":
+                    res += 1
+    return res
 
+have_moved = True
+while have_moved:
+    have_moved = False
+    for y in range(len(map_)):
+        for x in range(len(map_[0])):
+            if map_[y][x] == "@":
+                if (surroundings := check_surroundings(x, y, map_)) < 4:
+                    result += 1
+                    have_moved = True
+                    map_[y][x] = "."
 
-result = 0
-
-
-
-
-ranges = aoc.split("\n\n")[0].split()
-
-
-challenge = []
-
-annotated = []
-for index, start_end in enumerate(ranges):
-    start_end = start_end.split("-")
-    annotated.append(f"s{start_end[0]}-{index}")
-    annotated.append(f"e{start_end[1]}-{index}")
-
-started = False
-start = 0
-end = None
-ends_to_be_made = []
-annotated.sort(key=lambda x: int(x.split("-")[0][1:]))
-print(annotated)
-for arange in annotated:
-    arange, index = arange.split("-")
-    if not started and arange.startswith("s"):
-        started = True
-        ends_to_be_made.append(index)
-        start = int(arange[1:])
-        if end and start == end:
-            result -= 1
-    elif started and arange.startswith("s"):
-        ends_to_be_made.append(index)
-    elif arange.startswith("e"):
-        ends_to_be_made.remove(index)
-    if started and len(ends_to_be_made) == 0:
-        started = False
-        end = int(arange[1:])
-        print(start, end, (end-start) + 1)
-        result += (end-start) + 1
-
-print()
 print(result)

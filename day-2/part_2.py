@@ -1,30 +1,22 @@
-from string import digits
-
 with open("input.txt", "r") as f:
     aoc = f.read()
 
-
-banks = [list(bank) for bank in aoc.split()]
 result = 0
-joltages = []
 
+def repeat_chk(string):
+    for i in range(len(string)//2+1):
+        if string[i:] == string[:-i] and len(string)%i==0:
+            print(string, string[i:], string[:-i], i)
+            return True
+    return False
 
-def get_joltage(bank, digits):
-    bank = [int(digit) for digit in bank]
-    start = 0
-    end = -(digits-1)
-    for i in range(digits):
-        range_ = bank[start:end] if end < 0 else bank[start:]
-        digit = max(range_)
-        print(start, end, range_, f"-> {digit}")
-        yield str(digit)
-        start += range_.index(digit) + 1
-        end += 1
-
-for bank in banks:
-    print(bank)
-    joltage = int("".join(get_joltage(bank, 12)))
-    print(joltage)
-    joltages.append(joltage)
-
-print(sum(joltages))
+for id_rng in aoc.split(","):
+    id_rng = id_rng.split("-")
+    for id_ in range(int(id_rng[0]), int(id_rng[1]) + 1):
+        id_ = str(id_)
+        if id_[0:len(id_) // 2] == id_[len(id_) // 2:]:
+            result += int(id_)
+        elif repeat_chk(id_):
+            result += int(id_)
+print()
+print(result)

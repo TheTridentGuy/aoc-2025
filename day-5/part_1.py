@@ -1,25 +1,30 @@
-import time
 with open("input.txt", "r") as f:
-    aoc_input = f.read()
+    aoc = f.read()
+
+
 result = 0
-aoc_time_start = time.perf_counter()
-##############
-# CODE BELOW #
-##############
+with open("input.txt", "r") as f:
+    aoc = f.read()
 
-rows = aoc_input.split("\n")
-rows = [row.split() for row in rows]
 
-for i in range(len(rows[0])):
-    x = None
-    expr = f"{rows[-1][i]}".join([row[i] for row in rows[:-1]])
-    expr = "x=" +expr
-    exec(expr)
-    result += x
+result = 0
 
-##############
-# CODE ABOVE #
-##############
-print()
+ranges, ids = aoc.split("\n\n")
+ranges = ranges.split()
+ids = ids.split()
+ids = [int(id) for id in ids]
+
+challenge = []
+
+for start_end in ranges:
+    start_end = start_end.split("-")
+    challenge.append(f"{start_end[0]} <= num <= {start_end[1]}")
+
+challenge = " or ".join(challenge)
+
+for id in ids:
+    x = False
+    exec("x = "+ challenge.replace("num", str(id)))
+    if x:
+        result += 1
 print(result)
-print(f"execution time: {(time.perf_counter()-aoc_time_start)*1000:.2f}ms")

@@ -7,41 +7,24 @@ aoc_time_start = time.perf_counter()
 ##############
 # CODE BELOW #
 ##############
-import math
 
 
+rows = aoc_input.split()
+rows = [list(row) for row in rows]
 
-boxes = aoc_input.split()
-boxes = [[int(x) for x in box.split(",")] for box in boxes]
+def recursive(x, y):
+    try:
+        while rows[y][x] == ".":
+            y+=1
+        assert rows[y][x] == "^"
+        return recursive(x-1, y+1)+recursive(x+1, y+1)
+    except IndexError:
+        return 1
 
-def euclidean_distance(x1, y1, z1, x2, y2, z2):
-    return math.sqrt((x1-x2)**2+(y1-y2)**2+(z1-z2)**2)
 
-distances = []
-og_boxes = boxes[:]
-while boxes:
-    box_a = boxes.pop()
-    for box_b in boxes:
-        distances.append((box_a, box_b, euclidean_distance(*box_a, *box_b)))
-
-distances.sort(key=lambda x: x[-1])
-circuits = [[box] for box in og_boxes]
-for distance in distances:
-    box_a, box_b, _ = distance
-    for i in range(len(circuits)):
-        if box_a in circuits[i]:
-            circuit_a = i
-        if box_b in circuits[i]:
-            circuit_b = i
-    if circuit_a == circuit_b:
-        pass
-    else:
-        new_circuit = [*circuits[circuit_a], *circuits[circuit_b]]
-        circuits = [circuits[i] for i in range(len(circuits)) if not i in (circuit_a, circuit_b)]
-        circuits.append(new_circuit)
-    if len(circuits) == 1:
-        result = distance[0][0]*distance[1][0]
-        break
+for x in range(len(rows[0])):
+    if rows[0][x] == "S":
+        result += recursive(x, 1)
 
 
 

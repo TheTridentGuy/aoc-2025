@@ -3,28 +3,21 @@ with open("input.txt", "r") as f:
 
 
 result = 0
-with open("input.txt", "r") as f:
-    aoc = f.read()
+map_ = aoc.split()
+map_ = [list(row) for row in map_]
 
+def check_surroundings(x, y, map_):
+    res = 0
+    for yoff in [1, 0, -1]:
+        for xoff in [1, 0, -1]:
+            if x+xoff >= 0 and y+yoff >= 0 and x+xoff < len(map_[0]) and y+yoff < len(map_) and not (xoff == 0 and yoff == 0):
+                if map_[y+yoff][x+xoff] == "@":
+                    res += 1
+    return res
 
-result = 0
-
-ranges, ids = aoc.split("\n\n")
-ranges = ranges.split()
-ids = ids.split()
-ids = [int(id) for id in ids]
-
-challenge = []
-
-for start_end in ranges:
-    start_end = start_end.split("-")
-    challenge.append(f"{start_end[0]} <= num <= {start_end[1]}")
-
-challenge = " or ".join(challenge)
-
-for id in ids:
-    x = False
-    exec("x = "+ challenge.replace("num", str(id)))
-    if x:
-        result += 1
+for y in range(len(map_)):
+    for x in range(len(map_[0])):
+        if map_[y][x] == "@":
+            if (surroundings := check_surroundings(x, y, map_)) < 4:
+                result += 1
 print(result)
