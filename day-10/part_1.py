@@ -1,6 +1,9 @@
 import itertools
 import re
 import time
+
+from fontTools.misc.cython import returns
+
 with open("input.txt", "r") as f:
     aoc_input = f.read()
 result = 0
@@ -17,23 +20,21 @@ for index, machine in enumerate(machines):
 
 def solve_machine(machine):
     indicator_lights, button_wirings = machine
-    button_combos = [[[False]*len(indicator_lights), (wiring,)] for wiring in button_wirings]
-    for combinations in [itertools.combinations(button_wirings, i) for i in range(2, len(indicator_lights))]:
+    button_combos = []
+    for combinations in [itertools.combinations(button_wirings, i) for i in range(1, len(button_wirings))]:
         for combination in combinations:
-            button_combos.append([[False]*len(indicator_lights), combination])
+            button_combos.append(combination)
     target = [True if light == "#" else False for light in indicator_lights]
-    presses = 0
-    for i in range(100000):
-        for combo in button_combos:
-            lights, buttons = combo
-            for button in buttons:
-                for light in button:
-                    lights[light] = not indicator_lights[light]
-            if lights == target:
-                return presses*len(combo)
-    else:
-        print("warning loop exited", machine)
-        return 0
+    shortest = float("inf")
+    for combo in button_combos:
+        lights = [False]*len(indicator_lights)
+        for button in combo:
+            for light in button:
+                lights[light] = not lights[light]
+        if lights == target and len(combo) < shortest:
+            shortest = len(combo)
+    return shortest
+
 
 
 for machine in machines:
