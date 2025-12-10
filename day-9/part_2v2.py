@@ -37,8 +37,6 @@ def check_collisions(position_a, position_b):
     return True
 
 
-
-
 while positions:
     position_a = positions.pop()
     for position_b in positions:
