@@ -39,7 +39,6 @@ def solve_machine(machine):
 
 for machine in machines:
     result += solve_machine(machine)
-    print("solved machine")
 
 
 ##############
